@@ -5,7 +5,17 @@ import org.example.game_classes.cell.Cell;
 
 public abstract class   Bot {
     protected Side side;
-    public abstract void moveBot(Cell[][] board,Side botSide);
+    public abstract void moveBot(Cell[][] board);
 
+    public Bot(Side side) {
+        this.side = side;
+    }
 
+    public Side getSide() {
+        return side;
+    }
+
+    public void setSide(Side side) {
+        this.side = side;
+    }
 }

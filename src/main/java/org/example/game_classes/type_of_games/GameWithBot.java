@@ -5,12 +5,11 @@ import org.example.game_classes.bots.Bot;
 
 
 public class GameWithBot extends Game {
-    private Side botSide;
+
     private Bot bot;
 
-    public GameWithBot(int boardSize, Side turn, Side botSide,Bot bot) {
+    public GameWithBot(int boardSize, Side turn,Bot bot) {
         super(boardSize, turn);
-        this.botSide = botSide;
         this.bot = bot;
 
     }
@@ -20,11 +19,16 @@ public class GameWithBot extends Game {
     public void gamePlay() {
         while (winner == null) {
             printBoard();
+            checkWinner();
+            if(winner != null) {
+                break;
+            }
+
 
             if (turn == Side.BlACK) {
-                if (botSide == Side.BlACK) {
+                if (bot.getSide() == Side.BlACK) {
                     System.out.println("Ход черных, ход бота");
-                    bot.moveBot(board,botSide);
+                    bot.moveBot(board);
                     turn = Side.WHITE;
                 } else {
                     System.out.println("Ход черных, ход игрока");
@@ -33,9 +37,9 @@ public class GameWithBot extends Game {
                 }
                 winner = checkWinner();
             } else {
-                if (botSide == Side.WHITE) {
+                if (bot.getSide() == Side.WHITE) {
                     System.out.println("Ход белых, ход бота");
-                    bot.moveBot(board,botSide);
+                    bot.moveBot(board);
                     turn = Side.BlACK;
                 } else {
                     System.out.println("Ход белых, ход игрока");
@@ -44,7 +48,7 @@ public class GameWithBot extends Game {
                 }
                 winner = checkWinner();
             }
-            sayWinner();
+
 
 
         }
@@ -55,7 +59,7 @@ public class GameWithBot extends Game {
 
     private void playerController() {
         while (true) {
-            String command = scanner.nextLine();
+            String command = scanner.nextLine().toUpperCase();
             if (command.startsWith("HELP")) {
                 printHelp();
                 continue;

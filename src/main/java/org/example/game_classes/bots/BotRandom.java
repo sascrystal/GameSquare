@@ -6,11 +6,12 @@ import org.example.game_classes.cell.Cell;
 import java.util.Random;
 
 public class BotRandom extends Bot {
-    public BotRandom() {
+    public BotRandom(Side side) {
+        super(side);
     }
 
     @Override
-    public void moveBot(Cell[][] board, Side botSide) {
+    public void moveBot(Cell[][] board) {
         int row, col;
 
         do {
@@ -19,9 +20,9 @@ public class BotRandom extends Bot {
             col = rand.nextInt(board[row].length);
         } while (board[col][row].getCondition() != null);
 
-        board[col][row].setCondition(botSide);
+        board[col][row].setCondition(side);
 
-        if (botSide == Side.BlACK) {
+        if (side == Side.BlACK) {
             System.out.println("B( " + row + ", " + col + ")");
         } else {
             System.out.println("W(" + row + ", " + col + ")");
