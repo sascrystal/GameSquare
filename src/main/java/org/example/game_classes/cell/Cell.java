@@ -6,6 +6,7 @@ public class Cell {
     private Side condition;
 
     public Cell() {
+        condition = null;
     }
 
     public Side getCondition() {

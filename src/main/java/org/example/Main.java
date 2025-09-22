@@ -4,6 +4,7 @@ package org.example;
 import org.example.game_classes.Side;
 import org.example.game_classes.bots.BotRandom;
 import org.example.game_classes.type_of_games.Game;
+import org.example.game_classes.type_of_games.GameBotVersusBot;
 import org.example.game_classes.type_of_games.GameWithBot;
 
 import java.nio.charset.StandardCharsets;
@@ -57,14 +58,13 @@ public class Main {
                     game = new GameWithBot(board, firstSide, firstSide, new BotRandom());
                 }else if(firstType.equals("USER") && secondType.equals("COMP")) {
                     game = new GameWithBot(board, firstSide, secondSide, new BotRandom());
+                }else if(firstType.equals("COMP") && secondType.equals("COMP")) {
+                    game = new GameBotVersusBot(board,firstSide, firstSide, secondSide, new BotRandom(),new BotRandom());
                 }else {
-                    System.out.println("Неизвестная команда");
-                    break;
+                    System.out.println("неизвестная команда");
+                    continue;
                 }
                 game.gamePlay();
-                break;
-
-
 
             }
 

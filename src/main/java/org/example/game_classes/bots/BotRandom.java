@@ -17,8 +17,9 @@ public class BotRandom extends Bot {
             Random rand = new Random();
             row = rand.nextInt(board.length);
             col = rand.nextInt(board[row].length);
-        } while (board[row][col] == null);
-        board[row][col].setCondition(botSide);
+        } while (board[col][row].getCondition() != null);
+        System.out.println("goida");
+        board[col][row].setCondition(botSide);
 
         if (botSide == Side.BlACK) {
             System.out.println("B( " + row + ", " + col + ")");

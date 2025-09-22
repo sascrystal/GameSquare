@@ -20,6 +20,7 @@ public class GameWithBot extends Game {
     public void gamePlay() {
         while (winner == null) {
             printBoard();
+
             if (turn == Side.BlACK) {
                 if (botSide == Side.BlACK) {
                     System.out.println("Ход черных, ход бота");
@@ -43,17 +44,12 @@ public class GameWithBot extends Game {
                 }
                 winner = checkWinner();
             }
+            sayWinner();
 
 
         }
-        switch (winner) {
-            case BlACK:
-                System.out.println("ПОБЕДА ЧЕРНЫХ");
-                break;
-            case WHITE:
-                System.out.println("ПОБЕДА БЕЛЫХ");
-                break;
-        }
+        sayWinner();
+
 
     }
 

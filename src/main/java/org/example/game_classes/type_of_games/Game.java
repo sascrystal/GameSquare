@@ -9,10 +9,12 @@ public class Game {
     protected Cell[][] board;
     protected Side turn;
     protected Scanner scanner;
-    protected Side winner;
+    protected SideWinner winner;
+    private int turns;
 
     public Game(int boardSize,Side turn) {
         scanner = new Scanner(System.in);
+        turns = 0;
         board = new Cell[boardSize][boardSize];
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
@@ -91,16 +93,21 @@ public class Game {
 
 
         }
+        sayWinner();
+
+
+    }
+    protected void sayWinner(){
         switch(winner){
-            case BlACK:
+            case BLACK:
                 System.out.println("ПОБЕДА ЧЕРНЫХ");
                 break;
             case WHITE:
                 System.out.println("ПОБЕДА БЕЛЫХ");
                 break;
+            case NOBODY:
+                System.out.println("НИЧЬЯ");
         }
-
-
     }
 
     public void printHelp() {
@@ -109,26 +116,36 @@ public class Game {
         System.out.println("MOVE X, Y - выставление фишки на координаты x,y");
     }
 
-    protected Side checkWinner(){
+    protected SideWinner checkWinner(){
+        turns++;
+        if(turns> (board.length)*(board.length)){
+            return SideWinner.NOBODY;
+        }
+
         for (int i = 0; i < board.length-1; i++) {
+
             for (int j = 0; j < board[i].length-1; j++) {
                 if(board[i][j].getCondition() == Side.BlACK){
                     if(board[i+1][j].getCondition() == Side.BlACK
                             && board[i][j+1].getCondition() == Side.BlACK
                             && board[i+1][j+1].getCondition() == Side.BlACK){
-                        return Side.BlACK;
+                        return SideWinner.BLACK;
                     }
                 }
                 if(board[i][j].getCondition() == Side.WHITE){
                     if(board[i+1][j].getCondition() == Side.WHITE
                             && board[i][j+1].getCondition() == Side.WHITE
                             && board[i+1][j+1].getCondition() == Side.WHITE){
-                        return Side.WHITE;
+                        return SideWinner.WHITE;
                     }
                 }
             }
         }
+
         return null;
+    }
+    private enum SideWinner{
+        WHITE,BLACK,NOBODY
     }
 
 }
