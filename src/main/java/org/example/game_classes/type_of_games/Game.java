@@ -1,25 +1,30 @@
-package org.example.game_classes;
+package org.example.game_classes.type_of_games;
+
+import org.example.game_classes.Side;
+import org.example.game_classes.cell.Cell;
 
 import java.util.Scanner;
 
 public class Game {
-    private Cell[][] board;
-    private GameCondition condition;
-    private Scanner scanner;
-    public Winner winner;
+    protected Cell[][] board;
+    protected Side turn;
+    protected Scanner scanner;
+    protected SideWinner winner;
+    private int turns;
 
-    public Game(int boardSize,GameCondition condition) {
+    public Game(int boardSize,Side turn) {
         scanner = new Scanner(System.in);
+        turns = 0;
         board = new Cell[boardSize][boardSize];
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 board[i][j] = new Cell();
             }
         }
-        this.condition = condition;
+        this.turn = turn;
 
     }
-    private void printBoard() {
+    public void printBoard() {
         System.out.print("   ");
         for (int i = 0; i < board.length; i++) {
             System.out.print(i+ "   ");
@@ -37,10 +42,10 @@ public class Game {
     public void gamePlay(){
         while (winner == null){
             printBoard();
-            if (condition == GameCondition.TURN_BLACK){
+            if (turn == Side.BlACK){
                 System.out.println("Ход черных, поставьте фишку");
             }
-            if (condition == GameCondition.TURN_WHITE){
+            if (turn == Side.WHITE){
                 System.out.println("Ход белых, поставьте фишку");
             }
             String command = scanner.nextLine();
@@ -60,12 +65,20 @@ public class Game {
 
                         x = Integer.parseInt(parts[1].replace(",", ""));
                         y = Integer.parseInt(parts[2].replace(",", ""));
-                        if (condition == GameCondition.TURN_BLACK){
-                            board[y][x].setCondition(CellCondition.BLACK);
-                            condition = GameCondition.TURN_WHITE;
+                        if (y>=board.length || x>=board[y].length || x<0 || y<0){
+                            System.out.println("Выход за рамки board");
+                            continue;
+                        }
+                        if(board[y][x].getCondition()== Side.BlACK || board[y][x].getCondition()== Side.WHITE){
+                            System.out.println("Клетка не пуста");
+                            continue;
+                        }
+                        if (turn == Side.BlACK){
+                            board[y][x].setCondition(Side.BlACK);
+                            turn = Side.WHITE;
                         }else {
-                            board[y][x].setCondition(CellCondition.WHITE);
-                            condition = GameCondition.TURN_BLACK;
+                            board[y][x].setCondition(Side.WHITE);
+                            turn = Side.BlACK;
                         }
 
                         winner = checkWinner();
@@ -78,45 +91,61 @@ public class Game {
                 }
             }
 
+
         }
+        sayWinner();
+
+
+    }
+    protected void sayWinner(){
         switch(winner){
             case BLACK:
                 System.out.println("ПОБЕДА ЧЕРНЫХ");
                 break;
-                case WHITE:
-                    System.out.println("ПОБЕДА БЕЛЫХ");
-                    break;
+            case WHITE:
+                System.out.println("ПОБЕДА БЕЛЫХ");
+                break;
+            case NOBODY:
+                System.out.println("НИЧЬЯ");
         }
     }
 
-    private void printHelp() {
+    public void printHelp() {
         System.out.println("HELP - выдача всех команд");
         System.out.println("EXIT - выход из программы");
         System.out.println("MOVE X, Y - выставление фишки на координаты x,y");
     }
-    public enum Winner{
-        BLACK, WHITE
-    }
-    private Winner checkWinner(){
+
+    protected SideWinner checkWinner(){
+        turns++;
+        if(turns> (board.length)*(board.length)){
+            return SideWinner.NOBODY;
+        }
+
         for (int i = 0; i < board.length-1; i++) {
+
             for (int j = 0; j < board[i].length-1; j++) {
-                if(board[i][j].getCondition() == CellCondition.BLACK){
-                    if(board[i+1][j].getCondition() == CellCondition.BLACK
-                            && board[i][j+1].getCondition() == CellCondition.BLACK
-                            && board[i+1][j+1].getCondition() == CellCondition.BLACK){
-                        return Winner.BLACK;
+                if(board[i][j].getCondition() == Side.BlACK){
+                    if(board[i+1][j].getCondition() == Side.BlACK
+                            && board[i][j+1].getCondition() == Side.BlACK
+                            && board[i+1][j+1].getCondition() == Side.BlACK){
+                        return SideWinner.BLACK;
                     }
                 }
-                if(board[i][j].getCondition() == CellCondition.WHITE){
-                    if(board[i+1][j].getCondition() == CellCondition.WHITE
-                            && board[i][j+1].getCondition() == CellCondition.WHITE
-                            && board[i+1][j+1].getCondition() == CellCondition.WHITE){
-                        return Winner.WHITE;
+                if(board[i][j].getCondition() == Side.WHITE){
+                    if(board[i+1][j].getCondition() == Side.WHITE
+                            && board[i][j+1].getCondition() == Side.WHITE
+                            && board[i+1][j+1].getCondition() == Side.WHITE){
+                        return SideWinner.WHITE;
                     }
                 }
             }
         }
+
         return null;
+    }
+    private enum SideWinner{
+        WHITE,BLACK,NOBODY
     }
 
 }
