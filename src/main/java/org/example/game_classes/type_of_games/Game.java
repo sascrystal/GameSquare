@@ -42,13 +42,19 @@ public class Game {
     public void gamePlay(){
         while (winner == null){
             printBoard();
+            winner = checkWinner();
+            if(winner != null) {
+                break;
+            }
+
             if (turn == Side.BlACK){
                 System.out.println("Ход черных, поставьте фишку");
             }
             if (turn == Side.WHITE){
                 System.out.println("Ход белых, поставьте фишку");
             }
-            String command = scanner.nextLine();
+            String command = scanner.nextLine().toUpperCase();
+
             if(command.startsWith("HELP")){
                 printHelp();
                 continue;
@@ -73,6 +79,7 @@ public class Game {
                             System.out.println("Клетка не пуста");
                             continue;
                         }
+
                         if (turn == Side.BlACK){
                             board[y][x].setCondition(Side.BlACK);
                             turn = Side.WHITE;
@@ -81,7 +88,6 @@ public class Game {
                             turn = Side.BlACK;
                         }
 
-                        winner = checkWinner();
 
                     } catch (NumberFormatException e) {
                         System.out.println("Ошибка: X и Y должны быть числами");
@@ -100,13 +106,13 @@ public class Game {
     protected void sayWinner(){
         switch(winner){
             case BLACK:
-                System.out.println("ПОБЕДА ЧЕРНЫХ");
+                System.out.println("Game finished. Black wins");
                 break;
             case WHITE:
-                System.out.println("ПОБЕДА БЕЛЫХ");
+                System.out.println("Game finished. White wins");
                 break;
             case NOBODY:
-                System.out.println("НИЧЬЯ");
+                System.out.println("Game finished. Draw");
         }
     }
 

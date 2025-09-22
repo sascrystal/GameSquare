@@ -14,10 +14,10 @@ public class Main {
     public static void main(String[] args){
         System.setOut(new java.io.PrintStream(System.out, true, StandardCharsets.UTF_8));
         System.setProperty("file.encoding", "UTF-8");
-        System.out.println("Введите команду");
         Scanner scanner = new Scanner(System.in);
         Game game;
         while (true){
+            System.out.println("Введите команду");
             String command = scanner.nextLine();
             command = command.toUpperCase();
             if(command.startsWith("HELP")){
@@ -55,18 +55,21 @@ public class Main {
                 if(firstType.equals("USER") && secondType.equals("USER")){
                     game = new Game(board,firstSide);
                 }else if(firstType.equals("COMP") && secondType.equals("USER")) {
-                    game = new GameWithBot(board, firstSide, firstSide, new BotRandom());
+                    game = new GameWithBot(board, firstSide, new BotRandom(firstSide));
                 }else if(firstType.equals("USER") && secondType.equals("COMP")) {
-                    game = new GameWithBot(board, firstSide, secondSide, new BotRandom());
+                    game = new GameWithBot(board, firstSide, new BotRandom(secondSide));
                 }else if(firstType.equals("COMP") && secondType.equals("COMP")) {
-                    game = new GameBotVersusBot(board,firstSide, firstSide, secondSide, new BotRandom(),new BotRandom());
+                    game = new GameBotVersusBot(board,firstSide,  new BotRandom(firstSide),new BotRandom(secondSide));
                 }else {
-                    System.out.println("неизвестная команда");
+                    System.out.println("Incorrect command");
                     continue;
                 }
                 game.gamePlay();
 
+            }else {
+                System.out.println("Incorrect command");
             }
+
 
         }
 
