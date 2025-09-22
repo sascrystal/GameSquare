@@ -130,22 +130,47 @@ public class Game {
 
         for (int i = 0; i < board.length-1; i++) {
 
+
             for (int j = 0; j < board[i].length-1; j++) {
-                if(board[i][j].getCondition() == Side.BlACK){
-                    if(board[i+1][j].getCondition() == Side.BlACK
-                            && board[i][j+1].getCondition() == Side.BlACK
-                            && board[i+1][j+1].getCondition() == Side.BlACK){
-                        return SideWinner.BLACK;
+
+                for (int step = 1; step+i<board.length && step+j<board.length; step++){
+                    if(board[i][j].getCondition() == Side.BlACK){
+                        if(board[i+step][j].getCondition() == Side.BlACK
+                                && board[i][j+step].getCondition() == Side.BlACK
+                                && board[i+step][j+step].getCondition() == Side.BlACK){
+                            return SideWinner.BLACK;
+                        }
+                    }
+                    if(board[i][j].getCondition() == Side.WHITE){
+                        if(board[i+step][j].getCondition() == Side.WHITE
+                                && board[i][j+step].getCondition() == Side.WHITE
+                                && board[i+step][j+step].getCondition() == Side.WHITE){
+                            return SideWinner.WHITE;
+                        }
                     }
                 }
-                if(board[i][j].getCondition() == Side.WHITE){
-                    if(board[i+1][j].getCondition() == Side.WHITE
-                            && board[i][j+1].getCondition() == Side.WHITE
-                            && board[i+1][j+1].getCondition() == Side.WHITE){
-                        return SideWinner.WHITE;
+                //можеты быть можно сделать более оптимизировано
+                for (int step = 2; i+step<board.length && j+step/2<board.length && j-step/2 >=0; step+=2){
+                    if(board[i][j].getCondition() == Side.BlACK){
+                        if(board[i+step][j].getCondition() == Side.BlACK
+                                && board[i+step/2][j+step/2].getCondition() == Side.BlACK
+                                && board[i+step/2][j-step/2].getCondition() == Side.BlACK){
+                            return SideWinner.BLACK;
+                        }
+                    }
+                    if(board[i][j].getCondition() == Side.WHITE){
+                        if(board[i+step][j].getCondition() == Side.WHITE
+                                && board[i+step/2][j+step/2].getCondition() == Side.WHITE
+                                && board[i+step/2][j-step/2].getCondition() == Side.WHITE){
+                            return SideWinner.WHITE;
+                        }
                     }
                 }
+
+
+
             }
+
         }
 
         return null;
