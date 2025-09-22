@@ -60,6 +60,14 @@ public class Game {
 
                         x = Integer.parseInt(parts[1].replace(",", ""));
                         y = Integer.parseInt(parts[2].replace(",", ""));
+                        if (y>=board.length || x>=board[y].length || x<0 || y<0){
+                            System.out.println("Выход за рамки board");
+                            continue;
+                        }
+                        if(board[y][x].getCondition()==CellCondition.BLACK || board[y][x].getCondition()==CellCondition.WHITE){
+                            System.out.println("Клетка не пуста");
+                            continue;
+                        }
                         if (condition == GameCondition.TURN_BLACK){
                             board[y][x].setCondition(CellCondition.BLACK);
                             condition = GameCondition.TURN_WHITE;
