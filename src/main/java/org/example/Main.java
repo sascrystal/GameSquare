@@ -66,8 +66,10 @@ public class Main {
                 }
                 game.gamePlay();
 
+            }else {
+                System.out.println("Incorrect command");
             }
-            System.out.println("Incorrect command");
+
 
         }
 
