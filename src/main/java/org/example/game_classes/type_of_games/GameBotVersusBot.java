@@ -5,7 +5,7 @@ import org.example.game_classes.bots.Bot;
 
 import static org.example.game_classes.Side.BlACK;
 
-public class GameBotVersusBot extends Game{
+public class GameBotVersusBot extends Game {
     private final Bot bot1;
     private final Bot bot2;
 
@@ -21,7 +21,7 @@ public class GameBotVersusBot extends Game{
         while (winner == null) {
             printBoard();
             winner = checkWinner();
-            if(winner != null) {
+            if (winner != null) {
                 break;
             }
             if (turn == BlACK) {
