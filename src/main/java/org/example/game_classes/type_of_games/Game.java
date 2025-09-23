@@ -11,10 +11,12 @@ public class Game {
     protected Scanner scanner;
     protected SideWinner winner;
     private int turns;
+    private int[][] winningCellsCoordinates;
 
     public Game(int boardSize,Side turn) {
         scanner = new Scanner(System.in);
         turns = 0;
+        winningCellsCoordinates = new int[4][4];
         board = new Cell[boardSize][boardSize];
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
@@ -107,12 +109,22 @@ public class Game {
         switch(winner){
             case BLACK:
                 System.out.println("Game finished. Black wins");
+                printWinningCells();
                 break;
             case WHITE:
                 System.out.println("Game finished. White wins");
+                printWinningCells();
                 break;
             case NOBODY:
                 System.out.println("Game finished. Draw");
+        }
+        System.out.println();
+
+    }
+    protected void printWinningCells(){
+        System.out.println("Winning cells: ");
+        for (int i = 0; i < 4; i++) {
+            System.out.print("("+winningCellsCoordinates[i][0]+","+winningCellsCoordinates[i][1]+")");
         }
     }
 
@@ -129,23 +141,59 @@ public class Game {
         }
 
         for (int i = 0; i < board.length-1; i++) {
-
             for (int j = 0; j < board[i].length-1; j++) {
-                if(board[i][j].getCondition() == Side.BlACK){
-                    if(board[i+1][j].getCondition() == Side.BlACK
-                            && board[i][j+1].getCondition() == Side.BlACK
-                            && board[i+1][j+1].getCondition() == Side.BlACK){
-                        return SideWinner.BLACK;
+                Side side = board[i][j].getCondition();
+                for(int lengthOfCube = 0; side!=null
+                        && i+lengthOfCube < board.length
+                        && j+lengthOfCube < board.length; lengthOfCube++ ) {
+
+                    for(int positionOnCube = 0; positionOnCube<= lengthOfCube
+                            && i+positionOnCube < board.length
+                            && j+1+lengthOfCube-positionOnCube < board.length
+                            && j+1+lengthOfCube-positionOnCube >= 0
+                            && i+1+lengthOfCube < board.length
+                            && j+1-lengthOfCube-positionOnCube < board.length
+                            && j+1-lengthOfCube-positionOnCube >= 0
+                            && i+1+lengthOfCube-positionOnCube < board.length
+                            && i+1+lengthOfCube-positionOnCube >=0
+                            && j-positionOnCube >= 0; positionOnCube++){
+//
+                        if(board[i+positionOnCube][j+1+lengthOfCube-positionOnCube].getCondition() == side
+                                && board[i+1+lengthOfCube][j+1+lengthOfCube-positionOnCube*2].getCondition() == side
+                                && board[i+1+lengthOfCube-positionOnCube][j-positionOnCube].getCondition() == side){
+
+
+                            winningCellsCoordinates[0][0] = j;
+                            winningCellsCoordinates[0][1] = i;
+                            winningCellsCoordinates[1][0] = j+1+lengthOfCube-positionOnCube;
+                            winningCellsCoordinates[1][1] = i+positionOnCube;
+                            winningCellsCoordinates[2][0] = j+1+lengthOfCube-positionOnCube;
+                            winningCellsCoordinates[2][1] = i+1+lengthOfCube;
+                            winningCellsCoordinates[3][0] = j-positionOnCube;
+                            winningCellsCoordinates[3][1] = i+1+lengthOfCube-positionOnCube;
+
+
+
+                            switch (side){
+                                case BlACK -> {
+                                    return SideWinner.BLACK;
+                                }
+                                case WHITE -> {
+                                    return SideWinner.WHITE;
+                                }
+                            }
+                        }
+
                     }
+
+
                 }
-                if(board[i][j].getCondition() == Side.WHITE){
-                    if(board[i+1][j].getCondition() == Side.WHITE
-                            && board[i][j+1].getCondition() == Side.WHITE
-                            && board[i+1][j+1].getCondition() == Side.WHITE){
-                        return SideWinner.WHITE;
-                    }
-                }
+
+
+
+
             }
+
         }
 
         return null;
