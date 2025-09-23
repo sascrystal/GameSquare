@@ -161,7 +161,7 @@ public class Game {
                             && i + 1 + lengthOfCube - positionOnCube < board.length
                             && i + 1 + lengthOfCube - positionOnCube >= 0
                             && j - positionOnCube >= 0; positionOnCube++) {
-//
+
                         if (board[i + positionOnCube][j + 1 + lengthOfCube - positionOnCube].getCondition() == side
                                 && board[i + 1 + lengthOfCube][j + 1 + lengthOfCube - positionOnCube * 2].getCondition() == side
                                 && board[i + 1 + lengthOfCube - positionOnCube][j - positionOnCube].getCondition() == side) {
