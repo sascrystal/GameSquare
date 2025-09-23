@@ -12,6 +12,11 @@ public class Cell {
     public Side getCondition() {
         return condition;
     }
+
+    public void setCondition(Side condition) {
+        this.condition = condition;
+    }
+
     public String getConditionString() {
         return switch (condition) {
             case BlACK -> "B";
@@ -19,9 +24,5 @@ public class Cell {
             case null -> " ";
         };
 
-    }
-
-    public void setCondition(Side condition) {
-        this.condition = condition;
     }
 }

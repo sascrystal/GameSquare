@@ -11,23 +11,23 @@ import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         System.setOut(new java.io.PrintStream(System.out, true, StandardCharsets.UTF_8));
         System.setProperty("file.encoding", "UTF-8");
         Scanner scanner = new Scanner(System.in);
         Game game;
-        while (true){
+        while (true) {
             System.out.println("Введите команду");
             String command = scanner.nextLine();
             command = command.toUpperCase();
-            if(command.startsWith("HELP")){
+            if (command.startsWith("HELP")) {
                 printHelp();
                 continue;
             }
-            if(command.startsWith("EXIT")){
+            if (command.startsWith("EXIT")) {
                 System.exit(0);
             }
-            if(command.startsWith("GAME")){
+            if (command.startsWith("GAME")) {
                 String[] parts = command.split("\\s+");
                 Side firstSide, secondSide;
                 int board = Integer.parseInt(parts[1].replace(",", ""));
@@ -35,38 +35,40 @@ public class Main {
                 String firstColor = parts[3].replace(",", "");
                 String secondType = parts[4].replace(",", "");
                 String secondColor = parts[5].replace(",", "");
-                switch (firstColor){
+                switch (firstColor) {
                     case "WHITE":
                         firstSide = Side.WHITE;
                         break;
-                    default: firstSide = Side.BlACK;
+                    default:
+                        firstSide = Side.BlACK;
                 }
-                switch (secondColor){
+                switch (secondColor) {
                     case "WHITE":
                         secondSide = Side.WHITE;
                         break;
-                    default: secondSide = Side.BlACK;
+                    default:
+                        secondSide = Side.BlACK;
                 }
                 if (firstSide == secondSide) {
                     System.out.println("цвета и игроков одинаковы");
                     break;
                 }
 
-                if(firstType.equals("USER") && secondType.equals("USER")){
-                    game = new Game(board,firstSide);
-                }else if(firstType.equals("COMP") && secondType.equals("USER")) {
+                if (firstType.equals("USER") && secondType.equals("USER")) {
+                    game = new Game(board, firstSide);
+                } else if (firstType.equals("COMP") && secondType.equals("USER")) {
                     game = new GameWithBot(board, firstSide, new BotRandom(firstSide));
-                }else if(firstType.equals("USER") && secondType.equals("COMP")) {
+                } else if (firstType.equals("USER") && secondType.equals("COMP")) {
                     game = new GameWithBot(board, firstSide, new BotRandom(secondSide));
-                }else if(firstType.equals("COMP") && secondType.equals("COMP")) {
-                    game = new GameBotVersusBot(board,firstSide,  new BotRandom(firstSide),new BotRandom(secondSide));
-                }else {
+                } else if (firstType.equals("COMP") && secondType.equals("COMP")) {
+                    game = new GameBotVersusBot(board, firstSide, new BotRandom(firstSide), new BotRandom(secondSide));
+                } else {
                     System.out.println("Incorrect command");
                     continue;
                 }
                 game.gamePlay();
 
-            }else {
+            } else {
                 System.out.println("Incorrect command");
             }
 
@@ -74,12 +76,9 @@ public class Main {
         }
 
 
-
-
-
-
     }
-    private static void printHelp(){
+
+    private static void printHelp() {
         System.out.println("HELP- все команды");
         System.out.println("GAME N TYPE C, TYPE C  - включить игру где N - размер карты, type - типа игрока, C - цвет");
         System.out.println("EXIT - выйти из приложения");

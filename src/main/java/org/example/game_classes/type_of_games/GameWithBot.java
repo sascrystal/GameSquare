@@ -6,9 +6,9 @@ import org.example.game_classes.bots.Bot;
 
 public class GameWithBot extends Game {
 
-    private Bot bot;
+    private final Bot bot;
 
-    public GameWithBot(int boardSize, Side turn,Bot bot) {
+    public GameWithBot(int boardSize, Side turn, Bot bot) {
         super(boardSize, turn);
         this.bot = bot;
 
@@ -20,7 +20,7 @@ public class GameWithBot extends Game {
         while (winner == null) {
             printBoard();
             checkWinner();
-            if(winner != null) {
+            if (winner != null) {
                 break;
             }
 
@@ -48,7 +48,6 @@ public class GameWithBot extends Game {
                 }
                 winner = checkWinner();
             }
-
 
 
         }
