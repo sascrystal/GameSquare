@@ -161,8 +161,7 @@ public class Game {
                         if(board[i+positionOnCube][j+1+lengthOfCube-positionOnCube].getCondition() == side
                                 && board[i+1+lengthOfCube][j+1+lengthOfCube-positionOnCube*2].getCondition() == side
                                 && board[i+1+lengthOfCube-positionOnCube][j-positionOnCube].getCondition() == side){
-                            System.out.println(lengthOfCube);
-                            System.out.println(positionOnCube);
+
 
                             winningCellsCoordinates[0][0] = j;
                             winningCellsCoordinates[0][1] = i;
