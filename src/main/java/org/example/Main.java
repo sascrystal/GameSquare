@@ -2,6 +2,7 @@ package org.example;
 
 
 import org.example.game_classes.Side;
+import org.example.game_classes.bots.BotPriority;
 import org.example.game_classes.bots.BotRandom;
 import org.example.game_classes.type_of_games.Game;
 import org.example.game_classes.type_of_games.GameBotVersusBot;
@@ -35,33 +36,29 @@ public class Main {
                 String firstColor = parts[3].replace(",", "");
                 String secondType = parts[4].replace(",", "");
                 String secondColor = parts[5].replace(",", "");
-                switch (firstColor) {
-                    case "WHITE":
-                        firstSide = Side.WHITE;
-                        break;
-                    default:
-                        firstSide = Side.BlACK;
+                if (firstColor.equals("WHITE")) {
+                    firstSide = Side.WHITE;
+                } else {
+                    firstSide = Side.BlACK;
                 }
-                switch (secondColor) {
-                    case "WHITE":
-                        secondSide = Side.WHITE;
-                        break;
-                    default:
-                        secondSide = Side.BlACK;
+                if (secondColor.equals("WHITE")) {
+                    secondSide = Side.WHITE;
+                } else {
+                    secondSide = Side.BlACK;
                 }
                 if (firstSide == secondSide) {
                     System.out.println("цвета и игроков одинаковы");
-                    break;
+                    continue;
                 }
 
                 if (firstType.equals("USER") && secondType.equals("USER")) {
                     game = new Game(board, firstSide);
                 } else if (firstType.equals("COMP") && secondType.equals("USER")) {
-                    game = new GameWithBot(board, firstSide, new BotRandom(firstSide));
+                    game = new GameWithBot(board, firstSide, new BotPriority(firstSide));
                 } else if (firstType.equals("USER") && secondType.equals("COMP")) {
-                    game = new GameWithBot(board, firstSide, new BotRandom(secondSide));
+                    game = new GameWithBot(board, firstSide, new BotPriority(secondSide));
                 } else if (firstType.equals("COMP") && secondType.equals("COMP")) {
-                    game = new GameBotVersusBot(board, firstSide, new BotRandom(firstSide), new BotRandom(secondSide));
+                    game = new GameBotVersusBot(board, firstSide, new BotRandom(firstSide), new BotPriority(secondSide));
                 } else {
                     System.out.println("Incorrect command");
                     continue;

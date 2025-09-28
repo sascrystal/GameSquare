@@ -18,14 +18,14 @@ public class BotRandom extends Bot {
             Random rand = new Random();
             row = rand.nextInt(board.length);
             col = rand.nextInt(board[row].length);
-        } while (board[col][row].getCondition() != null);
+        } while (board[row][col].getCondition() != null);
 
-        board[col][row].setCondition(side);
+        board[row][col].setCondition(side);
 
         if (side == Side.BlACK) {
-            System.out.println("B( " + row + ", " + col + ")");
+            System.out.println("B( " + col + ", " + row + ")");
         } else {
-            System.out.println("W(" + row + ", " + col + ")");
+            System.out.println("W(" + col + ", " + row + ")");
 
 
         }
