@@ -29,25 +29,22 @@ public class GameWithBot extends Game {
                 if (bot.getSide() == Side.BlACK) {
                     System.out.println("Ход черных, ход бота");
                     bot.moveBot(board);
-                    turn = Side.WHITE;
                 } else {
                     System.out.println("Ход черных, ход игрока");
                     playerController();
-                    turn = Side.WHITE;
                 }
-                winner = checkWinner();
+                turn = Side.WHITE;
             } else {
                 if (bot.getSide() == Side.WHITE) {
                     System.out.println("Ход белых, ход бота");
                     bot.moveBot(board);
-                    turn = Side.BlACK;
                 } else {
                     System.out.println("Ход белых, ход игрока");
                     playerController();
-                    turn = Side.BlACK;
                 }
-                winner = checkWinner();
+                turn = Side.BlACK;
             }
+            winner = checkWinner();
 
 
         }
@@ -85,11 +82,10 @@ public class GameWithBot extends Game {
                         }
                         if (turn == Side.BlACK) {
                             board[y][x].setCondition(Side.BlACK);
-                            break;
                         } else {
                             board[y][x].setCondition(Side.WHITE);
-                            break;
                         }
+                        break;
 
 
                     } catch (NumberFormatException e) {

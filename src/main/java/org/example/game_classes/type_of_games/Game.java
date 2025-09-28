@@ -144,37 +144,53 @@ public class Game {
             return SideWinner.NOBODY;
         }
 
-        for (int i = 0; i < board.length - 1; i++) {
-            for (int j = 0; j < board[i].length - 1; j++) {
-                Side side = board[i][j].getCondition();
+        for (int y1 = 0; y1 < board.length - 1; y1++) {
+            for (int x1 = 0; x1 < board[y1].length - 1; x1++) {
+                Side side = board[y1][x1].getCondition();
                 for (int lengthOfCube = 0; side != null
-                        && i + lengthOfCube < board.length
-                        && j + lengthOfCube < board.length; lengthOfCube++) {
+                        && y1 + lengthOfCube < board.length; lengthOfCube++) {
 
-                    for (int positionOnCube = 0; positionOnCube <= lengthOfCube
-                            && i + positionOnCube < board.length
-                            && j + 1 + lengthOfCube - positionOnCube < board.length
-                            && j + 1 + lengthOfCube - positionOnCube >= 0
-                            && i + 1 + lengthOfCube < board.length
-                            && j + 1 - lengthOfCube - positionOnCube < board.length
-                            && j + 1 - lengthOfCube - positionOnCube >= 0
-                            && i + 1 + lengthOfCube - positionOnCube < board.length
-                            && i + 1 + lengthOfCube - positionOnCube >= 0
-                            && j - positionOnCube >= 0; positionOnCube++) {
+                    for (int positionOnCube = 0,
+                         x2 = x1 + 1 + lengthOfCube - positionOnCube,
+                         y2 = y1 + positionOnCube,
+                         x3 = x1 + 1 + lengthOfCube - positionOnCube * 2,
+                         y3 = y1 + 1 + lengthOfCube,
+                         x4 = x1 - positionOnCube,
+                         y4 = y1 + 1 + lengthOfCube - positionOnCube;
 
-                        if (board[i + positionOnCube][j + 1 + lengthOfCube - positionOnCube].getCondition() == side
-                                && board[i + 1 + lengthOfCube][j + 1 + lengthOfCube - positionOnCube * 2].getCondition() == side
-                                && board[i + 1 + lengthOfCube - positionOnCube][j - positionOnCube].getCondition() == side) {
+                         positionOnCube <= lengthOfCube
+                            && y2 < board.length
+                            && y3 < board.length
+                            && x3 >= 0
+                            && y4 < board.length
+                            && x4 >= 0;
+
+                         positionOnCube++,
+                                 x2 = x1 + 1 + lengthOfCube - positionOnCube,
+                                 y2 = y1 + positionOnCube,
+                                 x3 = x1 + 1 + lengthOfCube - positionOnCube * 2,
+                                 y3 = y1 + 1 + lengthOfCube,
+                                 x4 = x1 - positionOnCube,
+                                 y4 = y1 + 1 + lengthOfCube - positionOnCube) {
+                        if(x3 >= board.length || x2 >= board.length){
+                            continue;
+                        }
 
 
-                            winningCellsCoordinates[0][0] = j;
-                            winningCellsCoordinates[0][1] = i;
-                            winningCellsCoordinates[1][0] = j + 1 + lengthOfCube - positionOnCube;
-                            winningCellsCoordinates[1][1] = i + positionOnCube;
-                            winningCellsCoordinates[2][0] = j + 1 + lengthOfCube - positionOnCube;
-                            winningCellsCoordinates[2][1] = i + 1 + lengthOfCube;
-                            winningCellsCoordinates[3][0] = j - positionOnCube;
-                            winningCellsCoordinates[3][1] = i + 1 + lengthOfCube - positionOnCube;
+
+
+                        if (board[y2][x2].getCondition() == side
+                                && board[y3][x3].getCondition() == side
+                                && board[y4][x4].getCondition() == side) {
+
+                            winningCellsCoordinates[0][0] = x1;
+                            winningCellsCoordinates[0][1] = y1;
+                            winningCellsCoordinates[1][0] = x2;
+                            winningCellsCoordinates[1][1] = y2;
+                            winningCellsCoordinates[2][0] = x3;
+                            winningCellsCoordinates[2][1] = y3;
+                            winningCellsCoordinates[3][0] = x4;
+                            winningCellsCoordinates[3][1] = y4;
 
 
                             switch (side) {
@@ -195,8 +211,10 @@ public class Game {
 
             }
 
-        }
 
+
+
+        }
         return null;
     }
 
